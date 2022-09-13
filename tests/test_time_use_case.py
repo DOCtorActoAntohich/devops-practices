@@ -1,6 +1,8 @@
 import datetime
 import pytz
 
+import pytest
+
 from app_python.errors import InvalidTimeZoneError
 from app_python.use_case import CurrentTimeInTimeZoneUseCase
 
@@ -34,10 +36,6 @@ def test_timezones():
 
 def test_non_existent_timezone():
     failing_use_case = CurrentTimeInTimeZoneUseCase("what")
-    try:
-        _ = failing_use_case.execute()
-    except InvalidTimeZoneError:
-        assert True
-        return
 
-    assert False, "Exception should be raised when invalid timezone is passed"
+    with pytest.raises(InvalidTimeZoneError):
+        _ = failing_use_case.execute()

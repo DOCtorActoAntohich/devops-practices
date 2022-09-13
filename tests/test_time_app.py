@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 from starlette.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
@@ -16,9 +17,10 @@ def test_root_page():
     assert response_text.startswith(f"Current time in {timezone} is:")
 
 
-def test_existing_timezone():
-    timezone = "America/New_York"
-
+@pytest.mark.parametrize(
+    "timezone", [("America/New_York"), ("Europe/Moscow"), ("Asia/Krasnoyarsk")]
+)
+def test_existing_timezone(timezone):
     response = client.get(f"/{timezone}")
     assert response.status_code == HTTP_200_OK
 

@@ -28,7 +28,7 @@ it's production-ready, and can do neat stuff to optimize the service.
 There are also some libraries to work with dates and time. Built-in `zoneinfo` refused to work,
 so I decided to go for more reliable `pytz` even though it costs one more line in `requirements.txt`.
 
-## `requirements.txt` 
+## `requirements.txt`
 
 A must. Just a list with all libraries the project needs.
 
@@ -56,3 +56,18 @@ Another thing I wanted to do is try to follow _The Clean Architecture_ by Uncle 
 Questionable thing I did was introducing a custom exception.
 The one `pytz` offered wasn't enough for me to notify the user about what they do wrong,
 but it was possible to avoid making a new one.
+
+## Unit tests
+
+The idea to write tests for out small application is very stupid, but...
+
+I used `pytest` because it sounds like a good idea + I have some experience with it.
+It's very simple and easy to use, and has many community extensions.
+
+Good practice I used: parametrized same behavior, different calls for different behavior.
+
+I have multiple parameters for checking existing timezones, and different call for checking non-existent timezones.
+
+One more idea is to explore the toolset and use it to its full power. I tried it with exceptions, at least.
+
+`FastAPI` provides tools for testing so I used them too.

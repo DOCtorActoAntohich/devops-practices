@@ -1,0 +1,6 @@
+-r docker/requirements.txt
+
+mypy
+pytest
+pre-commit
+requests

@@ -1,9 +1,10 @@
-name: Check code
+name: Build latest
 
 on:
-  push:
-    tags:
-      - "v*"
+  pull_request:
+    branches:
+      - "master"
+      - "dev"
 
 jobs:
   build:
@@ -25,7 +26,7 @@ jobs:
         context: .
         file: ./docker/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/make_your_time:${{ github.ref_name }}
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/make_your_time:latest
         builder: ${{ steps.buildx.outputs.name }}
         cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/make_your_time:buildcache
         cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/make_your_time:buildcache,mode=max

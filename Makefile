@@ -17,3 +17,7 @@ stop_app:
 .PHONY: run_tests_local
 run_tests_local:
 	./venv/bin/python -m pytest tests
+
+.PHONY: run_linter
+run_linter:
+	flake8 .

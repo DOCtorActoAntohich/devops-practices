@@ -1,0 +1,13 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    env,
+    .venv,
+    .env,
+    .pytest_cache
+per-file-ignores =
+    # Imported but unused.
+    __init__.py: F401
+max-line-length = 88

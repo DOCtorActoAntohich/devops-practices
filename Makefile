@@ -18,6 +18,10 @@ stop_app:
 run_tests_local:
 	./venv/bin/python -m pytest tests
 
+.PHONY: run_tests_main
+run_tests_main:
+	python -m pytest tests
+
 .PHONY: run_linter
 run_linter:
 	flake8 .

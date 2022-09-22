@@ -24,7 +24,7 @@ jobs:
 
   docker_build:
     needs: run_app_tests
-    if: ${{github.event_name == 'pull_request'}}
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -47,8 +47,12 @@ jobs:
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/make_your_time:buildcache,mode=max
 
   docker_push:
-    needs: docker_build
-    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' }}
+    needs: run_app_tests
+    if: >-
+      ${{
+        github.event_name == 'push' &&
+        (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev')
+      }}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2

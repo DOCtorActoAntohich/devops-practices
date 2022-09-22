@@ -1,6 +1,6 @@
 name: Test, Build, Push, Gregify
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   run_app_tests:

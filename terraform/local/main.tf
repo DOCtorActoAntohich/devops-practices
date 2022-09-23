@@ -9,14 +9,14 @@ terraform {
 
 
 provider "docker" {
-  # windows bad. remove this crap if on linux.
+  # windows bad. remove if it doesn't work on linux:
   host = "npipe:////.//pipe//docker_engine"
 }
 
 
 resource "docker_image" "make_your_time" {
   name         = "doctoractoantohich/make_your_time:latest"
-  keep_locally = false
+  keep_locally = true
 }
 
 

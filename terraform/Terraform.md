@@ -2,11 +2,17 @@
 
 Doing it for a project that small is cursed.
 
+## Good practices I used
+
+- Separate workspaces (split local and production).
+- Files are as small as possible.
+- Use input variables.
+- To initialize sensitive variables, use `terraform.tfvars` file, which is `.gitignore`d.
+- Keep `.terraform.lock.hcl` file in the repository so that teammates have no problems managing dependencies.
+
 ## Docker
 
 ~~Kind of same as `Docker Compose` but more annoying.~~
-
-### How to
 
 ### Command outputs for Docker
 
@@ -24,13 +30,18 @@ Doing it for a project that small is cursed.
 - [terraform state list](yandex/Command%20outputs/terraform%20state%20list)
 - [terraform output](yandex/Command%20outputs/terraform%20output)
 
-## Good practices I used
+## GitHub
 
-- Separate workspaces (split local and production).
-- Files are as small as possible.
-- Use input variables.
-- To initialize sensitive variables, use `terraform.tfvars` file, which is `.gitignore`d.
-- Keep `.terraform.lock.hcl` file in the repository so that teammates have no problems managing dependencies.
+[github/main.tf](github/main.tf) errored because I didn't give too many read rights to GitHub token, but still it did the following to my dearest `master` branch protection rule:
+
+![image](https://user-images.githubusercontent.com/49134679/192058807-297a95cf-83b1-4a15-8202-1019419b7bff.png)
+
+These 2 lines should forbid rebase and merge squash commits:
+
+```bash
+allow_squash_merge = false
+allow_rebase_merge = false
+```
 
 ## How to run this mess
 
@@ -59,3 +70,7 @@ If you have something to do with users and SSH, go to `machine-user.yml` and cha
 Mine is garbage, I don't even remember the passphrase, and I didn't link it to the account.
 
 Finally, run `make run_yandex` to create VMs, and `make stop_yandex` to stop them.
+
+### GitHub provider
+
+No, you can't.

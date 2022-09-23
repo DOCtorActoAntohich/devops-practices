@@ -1,0 +1,3 @@
+yandex_token = "big string (yeah this one should be *really* long lol)"
+yandex_cloud_id = "smol string"
+yandex_folder_id = "another smol string"

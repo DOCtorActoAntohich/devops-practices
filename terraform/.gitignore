@@ -34,3 +34,9 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+
+
+# A funny dude with sensitive data for yandex cloud.
+# You won't need it but in case you forgor
+key.json

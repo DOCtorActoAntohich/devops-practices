@@ -3,5 +3,7 @@
 flake8
 mypy
 pytest
-pre-commit
 requests
+
+pre-commit
+ansible

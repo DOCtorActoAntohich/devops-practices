@@ -1,0 +1,6 @@
+container_id = "e21b503a7e5725006af7708733beb7b49826560652433a3fc8c8c20d62425e83"
+container_name = "make_your_time"
+image = "doctoractoantohich/make_your_time:latest"
+ports = [
+  "8000:8000",
+]

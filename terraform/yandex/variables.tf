@@ -30,7 +30,7 @@ variable "machine_name" {
 
 variable "image_id" {
   type    = string
-  default = "fd80jdh4pvsj48qftb3d"
+  default = "fd8kdq6d0p8sij7h5qe3"
 }
 
 variable "image_family" {

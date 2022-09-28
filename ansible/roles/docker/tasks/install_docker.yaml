@@ -19,25 +19,27 @@
       - lsb-release
     state: latest
 
-- name: Add Docker repo
-  apt_repository:
-    url: "{{ docker_repo_url }}"
-    state: present
-  sudo: yes
-
-- name: Add key for Docker repo
+- name: Add GPG key for Docker repo
   apt_key:
     url: "{{ docker_gpg_key_url }}"
     state: present
-  sudo: true
+  become: true
+
+- name: Add Docker APT repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/{{ ansible_system | lower }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
 
 - name: Install Docker
   apt:
-    name: docker
+    name: "{{ item }}"
     state: present
+  with_items:
+    - docker-ce
+    - containerd.io
 
 - name: Start Docker service
   service:
     name: docker
     state: started
-    enabled: yes
+    enabled: true
+  become: true

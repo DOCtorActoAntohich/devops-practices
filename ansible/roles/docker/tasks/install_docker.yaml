@@ -1,0 +1,43 @@
+---
+- name: D E S T R O Y old versions of Docker
+  package:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+  become: true
+
+- name: Update requirements
+  apt:
+    pkg:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: latest
+
+- name: Add Docker repo
+  apt_repository:
+    url: "{{ docker_repo_url }}"
+    state: present
+  sudo: yes
+
+- name: Add key for Docker repo
+  apt_key:
+    url: "{{ docker_gpg_key_url }}"
+    state: present
+  sudo: true
+
+- name: Install Docker
+  apt:
+    name: docker
+    state: present
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes

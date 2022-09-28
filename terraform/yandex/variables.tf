@@ -57,13 +57,17 @@ variable "timeout_delete" {
 }
 
 variable "yandex_token" {
-    type = string
+  type = string
 }
 
 variable "yandex_cloud_id" {
-    type = string
+  type = string
 }
 
 variable "yandex_folder_id" {
-    type = string
+  type = string
+}
+
+variable "ssh_public_key_path" {
+  type = string
 }

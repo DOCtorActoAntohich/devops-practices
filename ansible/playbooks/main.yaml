@@ -1,6 +1,6 @@
 ---
 - name: Install Docker
-  hosts: localhost
+  hosts: yandex_vms
   become: true
   roles:
     - docker

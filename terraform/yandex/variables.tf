@@ -28,6 +28,11 @@ variable "machine_name" {
   default = "red"
 }
 
+variable "machine_user" {
+  type    = string
+  default = "floppa"
+}
+
 variable "image_id" {
   type    = string
   default = "fd8kdq6d0p8sij7h5qe3"
@@ -69,5 +74,13 @@ variable "yandex_folder_id" {
 }
 
 variable "ssh_public_key_path" {
+  type = string
+}
+
+variable "ansible_inventory_templates_dir" {
+  type = string
+}
+
+variable "ansible_dynamic_inventory_out_dir" {
   type = string
 }

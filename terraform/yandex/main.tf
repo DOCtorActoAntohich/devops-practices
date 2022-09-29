@@ -54,6 +54,6 @@ resource "yandex_compute_instance" "machine" {
   }
 
   metadata = {
-    user-data = "${format(file("./metadata/machine-user.yaml"), chomp(file(var.ssh_public_key_path)))}"
+    user-data = "${format(file("./metadata/machine-user.yaml"), var.machine_user, chomp(file(var.ssh_public_key_path)))}"
   }
 }

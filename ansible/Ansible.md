@@ -17,42 +17,38 @@ I DID NOT USE ANSIBLE DOCS BECAUSE THEY SUCK.
 PLAY [Install Docker] **************************************************************************************************
 
 TASK [Gathering Facts] *************************************************************************************************
-ok: [triamogic_sushost]
+ok: [red]
 
 TASK [docker : include_tasks] ******************************************************************************************
-included: */dev-ops-labs/ansible/roles/docker/tasks/docker_group.yaml for triamogic_sushost
+included: */dev-ops-labs/ansible/roles/docker/tasks/docker_group.yaml for red
 
 TASK [docker : Create Docker group] ************************************************************************************
-ok: [triamogic_sushost]
+changed: [red]
 
 TASK [docker : Add users to Docker group] ******************************************************************************
-ok: [triamogic_sushost] => (item=floppa)
+changed: [red] => (item=floppa)
 
 TASK [docker : include_tasks] ******************************************************************************************
-included: */dev-ops-labs/ansible/roles/docker/tasks/install_docker.yaml for triamogic_sushost
+included: */dev-ops-labs/ansible/roles/docker/tasks/install_docker.yaml for red
 
 TASK [docker : D E S T R O Y old versions of Docker] *******************************************************************
-The following package was automatically installed and is no longer required:
-  wmdocker
-Use 'sudo apt autoremove' to remove it.
-The following packages will be REMOVED:
-  docker
-0 upgraded, 0 newly installed, 1 to remove and 34 not upgraded.
-changed: [triamogic_sushost]
+ok: [red]
 
 TASK [docker : Update requirements] ************************************************************************************
-ok: [triamogic_sushost]
+ok: [red]
 
 TASK [docker : Add GPG key for Docker repo] ****************************************************************************
-ok: [triamogic_sushost]
+changed: [red]
 
 TASK [docker : Add Docker APT repository] ******************************************************************************
-ok: [triamogic_sushost]
+--- before: /dev/null
++++ after: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
+@@ -0,0 +1 @@
++deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+
+changed: [red]
 
 TASK [docker : Install Docker] *****************************************************************************************
-The following package was automatically installed and is no longer required:
-  wmdocker
-Use 'sudo apt autoremove' to remove it.
 The following additional packages will be installed:
   containerd.io docker-ce-cli docker-ce-rootless-extras docker-scan-plugin git
   git-man libcurl3-gnutls liberror-perl libgdbm-compat4 libperl5.30 patch perl
@@ -66,15 +62,15 @@ The following NEW packages will be installed:
   containerd.io docker-ce docker-ce-cli docker-ce-rootless-extras
   docker-scan-plugin git git-man libcurl3-gnutls liberror-perl libgdbm-compat4
   libperl5.30 patch perl perl-modules-5.30 pigz slirp4netns
-0 upgraded, 16 newly installed, 0 to remove and 34 not upgraded.
-changed: [triamogic_sushost] => (item=docker-ce)
-ok: [triamogic_sushost] => (item=containerd.io)
+0 upgraded, 16 newly installed, 0 to remove and 36 not upgraded.
+changed: [red] => (item=docker-ce)
+ok: [red] => (item=containerd.io)
 
 TASK [docker : Start Docker service] ***********************************************************************************
-ok: [triamogic_sushost]
+ok: [red]
 
 PLAY RECAP *************************************************************************************************************
-triamogic_sushost          : ok=11   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+red                        : ok=11   changed=5    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
 ### `ansible-inventory -i inventory/yandex.yaml --list`
@@ -83,7 +79,7 @@ triamogic_sushost          : ok=11   changed=2    unreachable=0    failed=0    s
 {
     "_meta": {
         "hostvars": {
-            "triamogic_sushost": {
+            "red": {
                 "ansible_host": "127.0.0.2",
                 "ansible_ssh_private_key_file": "files/ssh/id_ed25519",
                 "ansible_user": "floppa"
@@ -98,7 +94,7 @@ triamogic_sushost          : ok=11   changed=2    unreachable=0    failed=0    s
     },
     "yandex_vms": {
         "hosts": [
-            "triamogic_sushost"
+            "red"
         ]
     }
 }

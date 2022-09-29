@@ -1,6 +1,0 @@
-yandex_vms:
-  hosts:
-    triamogic_sushost:
-      ansible_user: "floppa"
-      ansible_ssh_private_key_file: files/ssh/id_ed25519
-      ansible_host: "haha"

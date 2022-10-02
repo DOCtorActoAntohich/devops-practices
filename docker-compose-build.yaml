@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  make_your_time:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: make_your_time
+    restart: always
+    ports:
+      - "8080:8000"

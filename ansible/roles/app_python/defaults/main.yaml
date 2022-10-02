@@ -1,0 +1,3 @@
+---
+docker_image_name: doctoractoantohich/make_your_time:latest
+docker_container_name: make_your_time

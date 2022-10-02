@@ -1,0 +1,8 @@
+- name: Install Python 3.not_10
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python3.8
+    - python3-pip
+    - python3-setuptools

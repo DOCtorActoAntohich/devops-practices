@@ -1,6 +1,16 @@
 ---
+- name: U p d a t i n g . . .
+  hosts: yandex_vms
+  roles:
+    - system_update
+
 - name: Install Docker
   hosts: yandex_vms
   become: true
   roles:
     - docker
+
+- name: Deploy Docker
+  hosts: yandex_vms
+  roles:
+    - app_python

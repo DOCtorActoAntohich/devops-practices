@@ -1,0 +1,10 @@
+---
+- name: Run Docker Container from an image
+  docker_container:
+    image: "{{ docker_image_name }}"
+    name: "{{ docker_container_name }}"
+    state: started
+    auto_remove: true
+    ports:
+      - "8080:8000"
+  become: true

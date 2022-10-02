@@ -1,0 +1,6 @@
+- name: Apt update/upgrade
+  become: true
+  apt:
+    upgrade: true
+    update_cache: true
+    cache_valid_time: "{{ apt_cache_valid_time_seconds | int }}"

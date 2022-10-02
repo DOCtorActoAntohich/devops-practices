@@ -1,26 +1,25 @@
 # Ansible
 
-## Used materials
+## How to run
 
-I DID NOT USE ANSIBLE DOCS BECAUSE THEY SUCK.
-
-- [Docker role](https://medium.com/@knoldus/how-to-install-docker-on-rhel-using-ansible-role-62728c098351)
-- [apt install](https://stackoverflow.com/questions/54944080/installing-multiple-packages-in-ansible) and [apt remove](https://stackoverflow.com/questions/29914253/remove-package-ansible-playbook)
-- [Docker repo in apt](https://gist.github.com/rbq/886587980894e98b23d0eee2a1d84933)
-- [Config example](https://gist.github.com/wbcurry/f38bc6d8d1ee4a70ee2c)
+1. Create SSH key in `./files/ssh/id_ed25519`.
+2. In `terraform`, supply some values to variables in `yandex`.
+3. Run `Makefile` in `terraform` directory. It will generate Ansible inventory according to previous step.
+4. Run `Makefile` in `ansible` directory.
 
 ## Commands
 
-### `ansible-playbook -i inventory/yandex.yaml playbooks/main.yaml --diff`
+Refer to [Makefile](./Makefile) for actual commands.
+
+### `make yandex_install_and_run`
 
 ```txt
+PLAY [U p d a t i n g . . .] *******************************************************************************************
 
-PLAY [U p d a t i n g . . .] **********************************************************************************************************************
-
-TASK [Gathering Facts] ****************************************************************************************************************************
+TASK [Gathering Facts] *************************************************************************************************
 ok: [red]
 
-TASK [system_update : Apt update/upgrade] *********************************************************************************************************
+TASK [system_update : Apt update/upgrade] ******************************************************************************
 Calculating upgrade...
 The following NEW packages will be installed:
   linux-headers-5.4.0-126 linux-headers-5.4.0-126-generic
@@ -38,24 +37,24 @@ The following packages will be upgraded:
 36 upgraded, 5 newly installed, 0 to remove and 0 not upgraded.
 changed: [red]
 
-PLAY [Install Docker] *****************************************************************************************************************************
+PLAY [Deploy Docker] ***************************************************************************************************
 
-TASK [Gathering Facts] ****************************************************************************************************************************
+TASK [Gathering Facts] *************************************************************************************************
 ok: [red]
 
-TASK [docker : include_tasks] *********************************************************************************************************************
-included: */dev-ops-labs/ansible/roles/docker/tasks/docker_group.yaml for red
+TASK [setup_docker : include_tasks] ************************************************************************************
+included: */dev-ops-labs/ansible/roles/setup_docker/tasks/docker_group.yaml for red
 
-TASK [docker : Create Docker group] ***************************************************************************************************************
+TASK [setup_docker : Create Docker group] ******************************************************************************
 changed: [red]
 
-TASK [docker : Add users to Docker group] *********************************************************************************************************
+TASK [setup_docker : Add users to Docker group] ************************************************************************
 changed: [red] => (item=floppa)
 
-TASK [docker : include_tasks] *********************************************************************************************************************
-included: */dev-ops-labs/ansible/roles/docker/tasks/install_python.yaml for red
+TASK [setup_docker : include_tasks] ************************************************************************************
+included: */dev-ops-labs/ansible/roles/setup_docker/tasks/install_python.yaml for red
 
-TASK [docker : Install Python 3.not_10] ***********************************************************************************************************
+TASK [setup_docker : Install Python 3.not_10] **************************************************************************
 ok: [red] => (item=python3.8)
 The following packages were automatically installed and are no longer required:
   linux-headers-5.4.0-42 linux-headers-5.4.0-42-generic
@@ -94,19 +93,19 @@ The following NEW packages will be installed:
 changed: [red] => (item=python3-pip)
 ok: [red] => (item=python3-setuptools)
 
-TASK [docker : include_tasks] *********************************************************************************************************************
-included: */dev-ops-labs/ansible/roles/docker/tasks/install_docker.yaml for red
+TASK [setup_docker : include_tasks] ************************************************************************************
+included: */dev-ops-labs/ansible/roles/setup_docker/tasks/install_docker.yaml for red
 
-TASK [docker : D E S T R O Y old versions of Docker] **********************************************************************************************
+TASK [setup_docker : D E S T R O Y old versions of Docker] *************************************************************
 ok: [red]
 
-TASK [docker : Update requirements] ***************************************************************************************************************
+TASK [setup_docker : Update requirements] ******************************************************************************
 ok: [red]
 
-TASK [docker : Add GPG key for Docker repo] *******************************************************************************************************
+TASK [setup_docker : Add GPG key for Docker repo] **********************************************************************
 changed: [red]
 
-TASK [docker : Add Docker APT repository] *********************************************************************************************************
+TASK [setup_docker : Add Docker APT repository] ************************************************************************
 --- before: /dev/null
 +++ after: /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
 @@ -0,0 +1 @@
@@ -114,7 +113,7 @@ TASK [docker : Add Docker APT repository] **************************************
 
 changed: [red]
 
-TASK [docker : Install Docker] ********************************************************************************************************************
+TASK [setup_docker : Install Docker] ***********************************************************************************
 The following packages were automatically installed and are no longer required:
   linux-headers-5.4.0-42 linux-headers-5.4.0-42-generic
   linux-image-5.4.0-42-generic linux-modules-5.4.0-42-generic
@@ -134,30 +133,93 @@ The following NEW packages will be installed:
 changed: [red] => (item=docker-ce)
 ok: [red] => (item=containerd.io)
 
-TASK [docker : Install Docker Module for Python] **************************************************************************************************
+TASK [setup_docker : Install Docker Module for Python] *****************************************************************
+changed: [red] => (item=docker)
+changed: [red] => (item=docker-compose)
+
+TASK [setup_docker : Install docker-compose] ***************************************************************************
 changed: [red]
 
-TASK [docker : Start Docker service] **************************************************************************************************************
+TASK [setup_docker : Start Docker service] *****************************************************************************
 ok: [red]
 
-PLAY [Deploy Docker] ******************************************************************************************************************************
+TASK [app_python : include_tasks] **************************************************************************************
+included: */dev-ops-labs/ansible/roles/app_python/tasks/run_app.yaml for red
 
-TASK [Gathering Facts] ****************************************************************************************************************************
-ok: [red]
-
-TASK [app_python : Run Docker Container from an image] ********************************************************************************************
+TASK [app_python : Create app directory] *******************************************************************************
 --- before
 +++ after
-@@ -1,4 +1,4 @@
+@@ -1,5 +1,5 @@
  {
--    "exists": false,
--    "running": false
-+    "exists": true,
-+    "running": true
+-    "mode": "0775",
++    "mode": "0700",
+     "path": "/home/floppa/app",
+-    "state": "absent"
++    "state": "directory"
  }
 
 changed: [red]
 
-PLAY RECAP ****************************************************************************************************************************************
-red                        : ok=18   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+TASK [app_python : Create docker-compose from template] ****************************************************************
+--- before
++++ after: */docker-compose.yaml.j2
+@@ -0,0 +1,9 @@
++version: '3.9'
++
++services:
++  make_your_time:
++    image: doctoractoantohich/make_your_time:latest
++    container_name: make_your_time
++    restart: always
++    ports:
++      - "8080:8000"
+
+changed: [red]
+
+TASK [app_python : Run docker-compose] *********************************************************************************
+changed: [red]
+
+TASK [app_python : include_tasks] **************************************************************************************
+skipping: [red]
+
+PLAY RECAP *************************************************************************************************************
+red                        : ok=21   changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+```
+
+### `make yandex_stop`
+
+```txt
+PLAY [U p d a t i n g . . .] *******************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+ok: [red]
+
+TASK [system_update : Apt update/upgrade] ******************************************************************************
+skipping: [red]
+
+PLAY [Deploy Docker] ***************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+ok: [red]
+
+TASK [setup_docker : include_tasks] ************************************************************************************
+skipping: [red]
+
+TASK [setup_docker : include_tasks] ************************************************************************************
+skipping: [red]
+
+TASK [setup_docker : include_tasks] ************************************************************************************
+skipping: [red]
+
+TASK [app_python : include_tasks] **************************************************************************************
+skipping: [red]
+
+TASK [app_python : include_tasks] **************************************************************************************
+included: */dev-ops-labs/ansible/roles/app_python/tasks/stop_app.yaml for red
+
+TASK [app_python : Run docker-compose] *********************************************************************************
+changed: [red]
+
+PLAY RECAP *************************************************************************************************************
+red                        : ok=4    changed=1    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
 ```

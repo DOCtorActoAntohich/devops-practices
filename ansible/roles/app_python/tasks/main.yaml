@@ -1,24 +1,10 @@
 ---
-- name: Create app directory
+- include_tasks: run_app.yaml
   tags:
     - docker
-  file:
-    path: "{{ app_root_dir }}"
-    state: directory
-    mode: 0700
+  when: not wipe
 
-- name: Create docker-compose from template
+- include_tasks: stop_app.yaml
   tags:
-    - docker
-  template:
-    src: docker-compose.yaml.j2
-    dest: "{{ app_compose_path }}"
-    mode: 0700
-
-- name: Run docker-compose
-  tags:
-    - docker
-  community.docker.docker_compose:
-    project_src: "{{ app_root_dir }}"
-    files:
-    - "{{ app_compose_file }}"
+    - wipe
+  when: wipe

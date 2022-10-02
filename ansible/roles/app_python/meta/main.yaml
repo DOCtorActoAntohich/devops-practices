@@ -1,3 +1,4 @@
 ---
 dependencies:
-  - role: docker
+  - role: setup_docker
+    when: not wipe and setup_docker

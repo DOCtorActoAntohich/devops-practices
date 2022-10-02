@@ -1,0 +1,9 @@
+---
+- name: Run docker-compose
+  tags:
+    - wipe
+  community.docker.docker_compose:
+    project_src: "{{ app_root_dir }}"
+    files:
+    - "{{ app_compose_file }}"
+    state: absent

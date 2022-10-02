@@ -22,6 +22,7 @@
       - gnupg
       - lsb-release
     state: latest
+  become: true
 
 - name: Add GPG key for Docker repo
   tags:
@@ -36,6 +37,7 @@
     - setup
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/{{ ansible_system | lower }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
+  become: true
 
 - name: Install Docker
   tags:
@@ -46,6 +48,7 @@
   with_items:
     - docker-ce
     - containerd.io
+  become: true
 
 - name: Install Docker Module for Python
   tags:
@@ -55,6 +58,7 @@
   with_items:
     - docker
     - docker-compose
+  become: true
 
 - name: Install docker-compose
   tags:
@@ -64,6 +68,7 @@
     url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
     mode: 'u+x,g+x'
+  become: true
 
 - name: Start Docker service
   tags:

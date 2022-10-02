@@ -53,6 +53,11 @@ variable "memory" {
   default = 2
 }
 
+variable "disk_size" {
+  type    = number
+  default = 10
+}
+
 variable "timeout_create" {
   default = "10m"
 }

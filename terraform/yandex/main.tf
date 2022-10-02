@@ -40,6 +40,7 @@ resource "yandex_compute_instance" "machine" {
   boot_disk {
     initialize_params {
       image_id = var.image_id
+      size = var.disk_size
     }
   }
 

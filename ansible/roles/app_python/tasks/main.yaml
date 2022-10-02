@@ -1,12 +1,24 @@
 ---
-- name: Run Docker Container from an image
+- name: Create app directory
   tags:
     - docker
-  docker_container:
-    image: "{{ docker_image_name }}"
-    name: "{{ docker_container_name }}"
-    state: started
-    auto_remove: true
-    ports:
-      - "8080:8000"
-  become: true
+  file:
+    path: "{{ app_root_dir }}"
+    state: directory
+    mode: 0700
+
+- name: Create docker-compose from template
+  tags:
+    - docker
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ app_compose_path }}"
+    mode: 0700
+
+- name: Run docker-compose
+  tags:
+    - docker
+  community.docker.docker_compose:
+    project_src: "{{ app_root_dir }}"
+    files:
+    - "{{ app_compose_file }}"

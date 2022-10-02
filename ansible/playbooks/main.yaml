@@ -2,18 +2,10 @@
 - name: U p d a t i n g . . .
   tags:
     - os
+  run_once: true
   hosts: yandex_vms
   roles:
     - system_update
-
-- name: Install Docker
-  tags:
-    - setup
-    - docker
-  hosts: yandex_vms
-  become: true
-  roles:
-    - docker
 
 - name: Deploy Docker
   tags:

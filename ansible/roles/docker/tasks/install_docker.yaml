@@ -51,7 +51,19 @@
   tags:
     - setup
   pip:
-    name: docker
+    name: "{{ item }}"
+  with_items:
+    - docker
+    - docker-compose
+
+- name: Install docker-compose
+  tags:
+    - setup
+  remote_user: ubuntu
+  get_url:
+    url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
 
 - name: Start Docker service
   tags:

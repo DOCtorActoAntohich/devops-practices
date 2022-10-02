@@ -1,4 +1,7 @@
 - name: Apt update/upgrade
+  tags:
+    - os
+    - setup
   become: true
   apt:
     upgrade: true

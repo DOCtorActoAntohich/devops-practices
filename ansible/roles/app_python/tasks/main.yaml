@@ -1,5 +1,7 @@
 ---
 - name: Run Docker Container from an image
+  tags:
+    - docker
   docker_container:
     image: "{{ docker_image_name }}"
     name: "{{ docker_container_name }}"

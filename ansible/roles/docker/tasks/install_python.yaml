@@ -1,4 +1,6 @@
 - name: Install Python 3.not_10
+  tags:
+    - setup
   apt:
     name: "{{ item }}"
     state: present

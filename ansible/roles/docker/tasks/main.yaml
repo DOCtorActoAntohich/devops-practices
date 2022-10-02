@@ -1,4 +1,11 @@
 ---
 - include_tasks: docker_group.yaml
+  tags:
+    - os
 - include_tasks: install_python.yaml
+  tags:
+    - setup
 - include_tasks: install_docker.yaml
+  tags:
+    - setup
+    - docker

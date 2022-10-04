@@ -9,10 +9,10 @@ terraform {
 
 
 provider "yandex" {
-  token = var.yandex_token
-  cloud_id = var.yandex_cloud_id
+  token     = var.yandex_token
+  cloud_id  = var.yandex_cloud_id
   folder_id = var.yandex_folder_id
-  zone = var.zone
+  zone      = var.zone
 }
 
 
@@ -54,6 +54,6 @@ resource "yandex_compute_instance" "machine" {
   }
 
   metadata = {
-    user-data = "${file("./metadata/machine-user.yaml")}"
+    user-data = "${format(file("./metadata/machine-user.yaml"), var.machine_user, chomp(file(var.ssh_public_key_path)))}"
   }
 }

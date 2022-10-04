@@ -1,0 +1,6 @@
+---
+- name: Install Docker
+  hosts: yandex_vms
+  become: true
+  roles:
+    - docker

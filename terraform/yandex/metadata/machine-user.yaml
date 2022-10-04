@@ -1,8 +1,8 @@
 #cloud-config
 users:
-  - name: arbita
+  - name: "%s"
     groups: sudo
     shell: /bin/bash
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCf8o4EH00W+CnhJjFtSKgSlQ6h0de/xmwuKJUYd8hsbLao3H635nFK1XMIC73DJbcu+j/5HNGNq7B40plTRsIPIlFiLSDOgQd5MTcJMR/nxBvOsxANUCksJitHJCmrBezvWXbOXpWdAg1rcHoVQnT3coqfg85C4a21mBD0kUS7s4Rn/qbEIrM880oN6Xtq+9Lh4KDXmC46XOuz4kPD2fh0yn3Hq+UQEq0uf7iaivMEcJ5NSMC9+y7Me/WXedorBcTEhOjXHkMVrmKwnrsBgUPlqCME9u3tSr+e1wnNI/kdTr8w9RPQCb7OICfQkd/AdMuTzp8u8A7YHddSzHAXUh7r0nBb5K7WDsO1VK+bIgMR+gH8GVqZYRI6zAwLod+NB2HUKcpM4upEf3c4i5NQR3gg9f4UDGLZ2Zt75j25ix+PTOSRSTAZrLowmOsGOq1TyE7k3XFUVveioaUfaJZCNYC1fydi7/4h5cyN+ln7M/vLkwvQQEQ6NTHSgYyWOoKOlUk=
+      - "%s"

@@ -22,3 +22,7 @@ run_yandex:
 .PHONY: stop_yandex
 stop_yandex:
 	cd yandex && terraform destroy
+
+.PHONY: create_yandex_token
+create_yandex_token:
+	yc iam create-token

@@ -28,9 +28,14 @@ variable "machine_name" {
   default = "red"
 }
 
+variable "machine_user" {
+  type    = string
+  default = "floppa"
+}
+
 variable "image_id" {
   type    = string
-  default = "fd80jdh4pvsj48qftb3d"
+  default = "fd8kdq6d0p8sij7h5qe3"
 }
 
 variable "image_family" {
@@ -57,13 +62,25 @@ variable "timeout_delete" {
 }
 
 variable "yandex_token" {
-    type = string
+  type = string
 }
 
 variable "yandex_cloud_id" {
-    type = string
+  type = string
 }
 
 variable "yandex_folder_id" {
-    type = string
+  type = string
+}
+
+variable "ssh_public_key_path" {
+  type = string
+}
+
+variable "ansible_inventory_templates_dir" {
+  type = string
+}
+
+variable "ansible_dynamic_inventory_out_dir" {
+  type = string
 }

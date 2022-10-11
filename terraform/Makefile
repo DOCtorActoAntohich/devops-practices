@@ -1,7 +1,8 @@
-.PHONY: default
-.SILENT: default
-default:
-	echo Choose a target
+.PHONY: list
+.SILENT: list
+list:
+	echo Choose a target:
+	grep -E '^[a-zA-Z0-9_-]+:' Makefile
 
 .PHONY: run_local
 run_local:

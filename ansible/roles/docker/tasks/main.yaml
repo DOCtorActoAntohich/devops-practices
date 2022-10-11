@@ -1,3 +1,0 @@
----
-- include_tasks: docker_group.yaml
-- include_tasks: install_docker.yaml

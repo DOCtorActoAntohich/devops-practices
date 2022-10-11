@@ -1,6 +1,19 @@
 ---
-- name: Install Docker
+- name: U p d a t i n g . . .
+  tags:
+    - os
+  run_once: true
   hosts: yandex_vms
-  become: true
+  vars_files: ./vars/main.yaml
   roles:
+    - role: system_update
+      when: not wipe and setup_docker
+
+- name: Deploy Docker
+  tags:
     - docker
+    - wipe
+  hosts: yandex_vms
+  vars_files: ./vars/main.yaml
+  roles:
+    - app_python

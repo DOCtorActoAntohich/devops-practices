@@ -1,0 +1,10 @@
+---
+- include_tasks: run_app.yaml
+  tags:
+    - docker
+  when: not wipe
+
+- include_tasks: stop_app.yaml
+  tags:
+    - wipe
+  when: wipe

@@ -1,12 +1,18 @@
 ---
 - name: Create Docker group
+  tags:
+    - os
   group:
     name: docker
     state: present
+  become: true
 
 - name: Add users to Docker group
+  tags:
+    - os
   user:
     name: "{{ item }}"
     groups: docker
     append: yes
   with_items: "{{ docker_users }}"
+  become: true

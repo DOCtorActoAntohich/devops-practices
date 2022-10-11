@@ -1,0 +1,9 @@
+---
+docker_image_name: doctoractoantohich/make_your_time:latest
+docker_container_name: make_your_time
+docker_internal_port: 8000
+docker_external_port: 8080
+
+app_root_dir: "~/app"
+app_compose_file: "docker-compose.yaml"
+app_compose_path: "{{ app_root_dir }}/{{ app_compose_file }}"

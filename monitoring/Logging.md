@@ -2,6 +2,8 @@
 
 It is done with the power of Grafana, Promtail, and Loki.
 
+If you need to run and test it yourself (locally), in the root folder run `make monitoring_compose_up` or `make monitoring_compose_down` to enable or disable the system respectively.
+
 ## How it works
 
 1. In `docker-compose-pull.yaml` you can see configurations for containers.

@@ -25,3 +25,11 @@ run_tests_main:
 .PHONY: run_linter
 run_linter:
 	flake8 .
+
+.PHONY: compose_up
+compose_up:
+	docker compose -f docker-compose-pull.yaml up -d
+
+.PHONY: compose_down
+compose_down:
+	docker compose -f docker-compose-pull.yaml down

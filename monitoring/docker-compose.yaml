@@ -3,6 +3,8 @@ version: '3.9'
 x-logging: &epic_logger
   driver: json-file
   options:
+    max-size: 16M
+    max-file: 4
     tag: "{{.Name}}"
 
 

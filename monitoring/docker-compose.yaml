@@ -25,6 +25,10 @@ services:
     image: grafana/grafana:latest
     ports:
       - 3000:3000
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    volumes:
+      - ./config/grafana:/etc/grafana/provisioning:ro
     restart: unless-stopped
     networks:
       - pgs_net

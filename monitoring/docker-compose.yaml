@@ -32,7 +32,7 @@ services:
     image: grafana/promtail:2.6.1
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./monitoring/promtail.yaml:/etc/promtail/config.yaml
+      - ./promtail.yaml:/etc/promtail/config.yaml:ro
     command: -config.file=/etc/promtail/config.yaml
     restart: unless-stopped
     networks:

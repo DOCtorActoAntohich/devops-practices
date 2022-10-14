@@ -32,7 +32,7 @@ services:
     image: grafana/promtail:2.6.1
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./promtail.yaml:/etc/promtail/config.yaml:ro
+      - ./config/promtail.yaml:/etc/promtail/config.yaml:ro
     command: -config.file=/etc/promtail/config.yaml
     restart: unless-stopped
     networks:
@@ -49,6 +49,19 @@ services:
     networks:
       - pgs_net
     logging: *epic_logger
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.39.1
+    volumes:
+      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+    ports:
+      - 9090:9090
+    networks:
+      - pgs_net
 
 
 networks:

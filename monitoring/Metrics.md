@@ -2,13 +2,12 @@
 
 I was forced to use Prometheus to obtain some metrics for my app. ![](https://steamcommunity-a.akamaihd.net/economy/emoticon/:ohh_yeah:)
 
-## Loki
+## Scraping
 
-First, I added a job to obtain metrics from Loki (and from Prometheus itself).
+In [Prometheus Config](./config/prometheus.yaml) there are jobs to collect metrics from all services.
+It is done by going to `/metrics/` path in web.
 
-On `http://127.0.0.1:9090/targets` there are these jobs:
-
-![loki](https://user-images.githubusercontent.com/49134679/195821249-e3effe62-c7bd-4145-bf1a-492ad95012b4.png)
+That's what Prometheus will do automagically...
 
 ## Python App
 
@@ -35,3 +34,9 @@ python_gc_collections_total{generation="0"} 127.0
 python_gc_collections_total{generation="1"} 11.0
 python_gc_collections_total{generation="2"} 1.0
 ```
+
+## Result
+
+Prometheus collects all metrics and shows everything is okay
+
+![metrics](https://user-images.githubusercontent.com/49134679/195829047-ba08bbe3-89e4-4918-9422-f0636d5b9b14.png)

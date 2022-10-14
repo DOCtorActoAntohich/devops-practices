@@ -15,6 +15,7 @@ services:
       - "8080:8000"
     networks:
       - pgs_net
+    mem_limit: 512M
     logging: *epic_logger
 
   grafana:
@@ -25,6 +26,7 @@ services:
     restart: unless-stopped
     networks:
       - pgs_net
+    mem_limit: 256M
     logging: *epic_logger
 
   promtail:
@@ -39,6 +41,7 @@ services:
       - pgs_net
     ports:
       - 8082:8082
+    mem_limit: 256M
     logging: *epic_logger
 
   loki:
@@ -50,6 +53,7 @@ services:
     restart: unless-stopped
     networks:
       - pgs_net
+    mem_limit: 256M
     logging: *epic_logger
 
   prometheus:
@@ -62,6 +66,7 @@ services:
       - --storage.tsdb.retention.time=7d
     ports:
       - 9090:9090
+    mem_limit: 256M
     networks:
       - pgs_net
 

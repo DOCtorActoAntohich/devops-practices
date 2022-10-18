@@ -25,3 +25,11 @@ run_tests_main:
 .PHONY: run_linter
 run_linter:
 	flake8 .
+
+.PHONY: monitoring_compose_up
+monitoring_compose_up:
+	docker compose -f monitoring/docker-compose.yaml up -d
+
+.PHONY: monitoring_compose_down
+monitoring_compose_down:
+	docker compose -f monitoring/docker-compose.yaml down

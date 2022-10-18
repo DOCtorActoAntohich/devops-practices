@@ -1,0 +1,55 @@
+version: '3.9'
+
+x-logging: &epic_logger
+  driver: json-file
+  options:
+    tag: "{{.Name}}"
+
+
+services:
+  make_your_time:
+    image: doctoractoantohich/make_your_time:latest
+    container_name: make_your_time
+    restart: unless-stopped
+    ports:
+      - "8080:8000"
+    networks:
+      - pgs_net
+    logging: *epic_logger
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    networks:
+      - pgs_net
+    logging: *epic_logger
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:2.6.1
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./promtail.yaml:/etc/promtail/config.yaml:ro
+    command: -config.file=/etc/promtail/config.yaml
+    restart: unless-stopped
+    networks:
+      - pgs_net
+    logging: *epic_logger
+
+  loki:
+    container_name: loki
+    image: grafana/loki:2.6.1
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+    networks:
+      - pgs_net
+    logging: *epic_logger
+
+
+networks:
+  pgs_net:

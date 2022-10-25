@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: make-your-time
+spec:
+  type: LoadBalancer
+  selector:
+    app: make-your-time
+  ports:
+    - protocol: TCP
+      targetPort: 8000  # App.
+      port: 8080        # Pod network.
+      nodePort: 31337   # For external access.
+      name: http

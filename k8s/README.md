@@ -96,3 +96,49 @@ minikube stop
 ```
 
 Maybe you might want to `minikube delete` instead of `stop`.
+
+## Using config files, a.k.a. YAML programming
+
+Instead of manually entering commands to setup services each time, you can manually enter commands to read service configs from files.
+
+The commands are:
+
+```bash
+kubectl apply -f ./config/deployment.yaml
+kubectl apply -f ./config/service.yaml
+```
+
+`kubectl get pods,svc` yields:
+
+```txt
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/make-your-time-796d54b48d-5zl4l   1/1     Running   0          0s
+pod/make-your-time-796d54b48d-77p8p   1/1     Running   0          0s
+pod/make-your-time-796d54b48d-bpd6v   1/1     Running   0          0s
+
+NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+service/kubernetes       ClusterIP      10.96.0.1      <none>        443/TCP          1.7sg
+service/make-your-time   LoadBalancer   10.102.190.4   <pending>     8080:31337/TCP   0s
+```
+
+To launch everything execute `minikube service --all`.
+I replaced silly emotes with text analogs just in case but tables remain the same:
+
+```txt
+|-----------|------------|-------------|--------------|
+| NAMESPACE |    NAME    | TARGET PORT |     URL      |
+|-----------|------------|-------------|--------------|
+| default   | kubernetes |             | No node port |
+|-----------|------------|-------------|--------------|
+:sadboi:  service default/kubernetes has no node port
+|-----------|----------------|-------------|---------------------------|
+| NAMESPACE |      NAME      | TARGET PORT |            URL            |
+|-----------|----------------|-------------|---------------------------|
+| default   | make-your-time | http/8080   | http://192.168.49.2:31337 |
+|-----------|----------------|-------------|---------------------------|
+:happyboi:  Opening service default/make-your-time in default browser...
+```
+
+Gladly, this funny thing works too:
+
+![image](https://user-images.githubusercontent.com/49134679/197900125-c19ae32a-275a-48ec-8db1-2bcdb51b249b.png)

@@ -1,6 +1,6 @@
 # Kubernetes
 
-pain.
+This file can help you deploy the app locally using `minikube` and `kubectl` (install them).
 
 ## Manual management
 

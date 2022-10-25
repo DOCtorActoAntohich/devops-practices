@@ -101,7 +101,9 @@ Maybe you might want to `minikube delete` instead of `stop`.
 
 Instead of manually entering commands to setup services each time, you can manually enter commands to read service configs from files.
 
-The commands are:
+## Setting up
+
+From this directory, the commands are:
 
 ```bash
 kubectl apply -f ./config/deployment.yaml
@@ -142,3 +144,14 @@ I replaced silly emotes with text analogs just in case but tables remain the sam
 Gladly, this funny thing works too:
 
 ![image](https://user-images.githubusercontent.com/49134679/197900125-c19ae32a-275a-48ec-8db1-2bcdb51b249b.png)
+
+## Cleaning up
+
+Similarly to manual work, here are the commands:
+
+```bash
+kubectl delete -f ./config/service.yaml
+kubectl delete -f ./config/deployment.yaml
+```
+
+Then kill `minikube` if you want (I know you *really* want).

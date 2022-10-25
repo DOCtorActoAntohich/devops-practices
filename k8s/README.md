@@ -26,8 +26,26 @@ kubectl expose deployment mongus --type=LoadBalancer --port=8000
 
 ### Finishing up
 
-To make it work, gotta run `minikube tunnel` then `minikube service mongus`.
-The latter command prints this:
+Run `minikube tunnel` and `minikube service mongus`, probably in different termilans.
+That should run and expose the container
+
+The first command repeatedly prints this heresy every couple of seconds:
+
+```
+Status:
+        machine: minikube
+        pid: 66666
+        route: 10.96.0.0/12 -> 192.168.49.2
+        minikube: Running
+        services: [mongus]
+    errors:
+                minikube: no errors
+                router: no errors
+                loadbalancer emulator: no errors
+
+```
+
+The second command prints this:
 
 ```txt
 |-----------|--------|-------------|---------------------------|

@@ -21,7 +21,7 @@ def test_root_page():
     "timezone", [("America/New_York"), ("Europe/Moscow"), ("Asia/Krasnoyarsk")]
 )
 def test_existing_timezone(timezone):
-    response = client.get(f"/{timezone}")
+    response = client.get(f"/zone/{timezone}")
     assert response.status_code == HTTP_200_OK
 
     response_text = response.json()
@@ -31,7 +31,7 @@ def test_existing_timezone(timezone):
 def test_non_existent_timezone():
     timezone = "Amogus/Sus"
 
-    response = client.get(f"/{timezone}")
+    response = client.get(f"/zone/{timezone}")
     assert response.status_code == HTTP_400_BAD_REQUEST
     assert response.json() == {
         "error_details": f"Invalid IANA time zone name: {timezone}"

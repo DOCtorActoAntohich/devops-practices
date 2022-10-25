@@ -4,7 +4,7 @@ pain.
 
 ## Manual management
 
-Stuff is done locally in `minikube` so before doing stuff:
+Stuff is done locally in `minikube` so before the start:
 
 `minikube start`
 
@@ -55,7 +55,9 @@ The second command prints this:
 |-----------|--------|-------------|---------------------------|
 ```
 
-Connecting to the link from the table (using browser) leads to the OG app. Most likely.
+Finally, as a proof that this monstrosity works:
+
+![image](https://user-images.githubusercontent.com/49134679/197895424-b2b02772-8b68-4afa-bf7f-9e27d82b4ad0.png)
 
 ### Outputs
 

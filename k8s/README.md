@@ -58,3 +58,21 @@ NAME                 TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)     
 service/kubernetes   ClusterIP      10.96.0.1       <none>          443/TCP          16y
 service/mongus       LoadBalancer   10.104.64.115   10.104.64.115   8000:32241/TCP   0s
 ```
+
+### Cleaning up
+
+Delete service and deployment:
+
+```bash
+kubectl delete service mongus
+kubectl delete deployment mongus
+```
+
+Then destroy `minikube`
+
+```bash
+minikube tunnel --cleanup
+minikube stop
+```
+
+Maybe you might want to `minikube delete` instead of `stop`.

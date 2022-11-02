@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: make-your-time
+  labels:
+    app: make-your-time
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: make-your-time
+  template:
+    metadata:
+      labels:
+        app: make-your-time
+    spec:
+      containers:
+      - name: make-your-time
+        image: doctoractoantohich/make_your_time:latest
+        ports:
+        - containerPort: 8000

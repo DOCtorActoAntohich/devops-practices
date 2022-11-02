@@ -240,6 +240,58 @@ There's also this cool green thing in `minikube dashboard`:
 
 ![dashboard](https://user-images.githubusercontent.com/49134679/199409316-2b5cfd18-e75d-4f91-a19a-5c5911c3d39c.png)
 
+### Health checks
+
+I edited these sections in `deployment.yaml`:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /
+    port: {{ .Values.service.container_port }}
+  initialDelaySeconds: 10
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /
+    port: {{ .Values.service.container_port }}
+  initialDelaySeconds: 10
+  periodSeconds: 10
+```
+
+Now there will be warnings if the container is not very alive.
+
+However, in my case, `kubectl describe pod make-your-time` shows these lines:
+
+```txt
+Liveness:       http-get http://:8000/ delay=10s timeout=1s period=10s #success=1 #failure=3
+Readiness:      http-get http://:8000/ delay=10s timeout=1s period=10s #success=1 #failure=3
+```
+
+And these lines in the end:
+
+```txt
+Events:
+Type    Reason     Age   From               Message
+----    ------     ----  ----               -------
+Normal  Scheduled  31s   default-scheduler  Successfully assigned default/make-your-time-6557954df7-rqtxt to minikube
+Normal  Pulled     30s   kubelet            Container image "doctoractoantohich/make_your_time:latest" already present on machine
+Normal  Created    30s   kubelet            Created container make-your-time
+Normal  Started    30s   kubelet            Started container make-your-time
+```
+
+In process of setting up, I noticed something like this in `kubectl get events`:
+
+```txt
+LAST SEEN   TYPE      REASON              OBJECT                                 MESSAGE
+42m17s      Warning   Unhealthy           pod/make-your-time-dbc67b65d-zpb44     Readiness probe failed: Get "http://172.17.0.6:8000/": dial tcp 172.17.0.6:8000: connect: connection refused
+```
+
+It was caused by wrong settings, or wrong port, or for some other reason.
+When I supplied it with the correct port, it stopped pestering me.
+
+If the container had issues, it would spam me with such messages everywhere. However, everything was okay for me, which is very cool and epic.
+
 ### Clean up
 
 Deleting via `helm` is done using `helm uninstall make-your-time`.

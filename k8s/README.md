@@ -155,3 +155,145 @@ kubectl delete -f ./config/deployment.yaml
 ```
 
 Then kill `minikube` if you want (I know you *really* want).
+
+## Automating the automation with `helm`
+
+Instead of manually entering commands to read service configs from files, you can manually enter commands to add the whole pod configuratuion.
+
+For this luxury, install `helm` for `kubernetes` (careful here).
+
+![helm](https://user-images.githubusercontent.com/49134679/199402117-12bf2c22-ce34-496b-8ed2-edf91028dbea.png)
+
+### `helm` chart, a.k.a. package
+
+I created a template using `helm create make-your-time`. In this template, I edited the following section in `values.yaml`:
+
+```yaml
+image:
+  repository: doctoractoantohich/make_your_time
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: NodePort
+  container_port: 8000
+  out_port: 8080
+```
+
+A couple more edits in `deployents.yaml`:
+
+```yaml
+ports:
+  - name: http
+    containerPort: {{ .Values.service.container_port }}
+    protocol: TCP
+```
+
+And in `service.yaml`:
+
+```yaml
+ports:
+  - port: {{ .Values.service.out_port }}
+    targetPort: {{ .Values.service.container_port }}
+    protocol: TCP
+    name: http
+```
+
+Used `helm lint make-your-time` just in case.
+
+Then I made a local package using `helm package make-your-time`.
+That command creates an archive, which you can install using `helm install make-your-time make-your-time-0.1.0.tgz`.
+The first parameter is a name for the local instance.
+The second parameter is the created archive.
+Note that version might be different.
+
+Successful installation means the app is up and running.
+
+`minikube service make-your-time` shows:
+
+```txt
+|-----------|----------------|-------------|---------------------------|
+| NAMESPACE |      NAME      | TARGET PORT |            URL            |
+|-----------|----------------|-------------|---------------------------|
+| default   | make-your-time | http/8080   | http://192.168.49.2:32257 |
+|-----------|----------------|-------------|---------------------------|
+```
+
+`kubectl get pods,svc` shows:
+
+```txt
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/make-your-time-5f69cb9b97-m5vxn   1/1     Running   0          2m28s
+
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+service/kubernetes       ClusterIP   10.96.0.1      <none>        443/TCP          16y
+service/make-your-time   NodePort    10.97.52.109   <none>        8080:32257/TCP   2m28s
+```
+
+Indeed, it works:
+
+![curl](https://user-images.githubusercontent.com/49134679/199409258-bdd85eb8-97e8-46f9-9213-3819e2b4d137.png)
+
+There's also this cool green thing in `minikube dashboard`:
+
+![green_thing](https://user-images.githubusercontent.com/49134679/199411582-c469d66e-9f44-4183-9a68-fb189d7c7826.png)
+
+![dashboard](https://user-images.githubusercontent.com/49134679/199409316-2b5cfd18-e75d-4f91-a19a-5c5911c3d39c.png)
+
+### Health checks
+
+I edited these sections in `deployment.yaml`:
+
+```yaml
+livenessProbe:
+  httpGet:
+    path: /
+    port: {{ .Values.service.container_port }}
+  initialDelaySeconds: 10
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /
+    port: {{ .Values.service.container_port }}
+  initialDelaySeconds: 10
+  periodSeconds: 10
+```
+
+Now there will be warnings if the container is not very alive.
+
+However, in my case, `kubectl describe pod make-your-time` shows these lines:
+
+```txt
+Liveness:       http-get http://:8000/ delay=10s timeout=1s period=10s #success=1 #failure=3
+Readiness:      http-get http://:8000/ delay=10s timeout=1s period=10s #success=1 #failure=3
+```
+
+And these lines in the end:
+
+```txt
+Events:
+Type    Reason     Age   From               Message
+----    ------     ----  ----               -------
+Normal  Scheduled  31s   default-scheduler  Successfully assigned default/make-your-time-6557954df7-rqtxt to minikube
+Normal  Pulled     30s   kubelet            Container image "doctoractoantohich/make_your_time:latest" already present on machine
+Normal  Created    30s   kubelet            Created container make-your-time
+Normal  Started    30s   kubelet            Started container make-your-time
+```
+
+In process of setting up, I noticed something like this in `kubectl get events`:
+
+```txt
+LAST SEEN   TYPE      REASON              OBJECT                                 MESSAGE
+42m17s      Warning   Unhealthy           pod/make-your-time-dbc67b65d-zpb44     Readiness probe failed: Get "http://172.17.0.6:8000/": dial tcp 172.17.0.6:8000: connect: connection refused
+```
+
+It was caused by wrong settings, or wrong port, or for some other reason.
+When I supplied it with the correct port, it stopped pestering me.
+
+If the container had issues, it would spam me with such messages everywhere. However, everything was okay for me, which is very cool and epic.
+
+### Clean up
+
+Deleting via `helm` is done using `helm uninstall make-your-time`.
+
+The rest is just `minikube` which you already know how to annihilate.

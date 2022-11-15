@@ -1,5 +1,6 @@
 from app_python.use_case import ExtractVisitStatistics
 
+
 class VisitsInteractor:
     @classmethod
     def statistics(cls) -> str:

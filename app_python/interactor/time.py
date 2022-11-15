@@ -1,4 +1,3 @@
-import pathlib
 import datetime
 
 from app_python.use_case import CurrentTimeInTimeZoneUseCase, UpdateVisitStatistics

@@ -33,6 +33,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: configmap
+              mountPath: /app/configmap.yaml
+              subPath: ./configmap.yaml
           resources:
             requests:
               memory: "{{ .Values.resources.requests.memory }}"
@@ -67,6 +71,10 @@ spec:
               port: {{ .Values.service.container_port }}
             initialDelaySeconds: 10
             periodSeconds: 10
+      volumes:
+        - name: configmap
+          configMap:
+            name: make-your-time-configpain
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

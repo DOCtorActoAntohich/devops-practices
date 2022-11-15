@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: make-your-time-configpain
+data:
+  configmap.yaml: |
+    namespace:
+      - default
+    labels:
+      - app
+      - owner

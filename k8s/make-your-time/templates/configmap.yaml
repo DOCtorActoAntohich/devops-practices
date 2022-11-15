@@ -3,9 +3,6 @@ kind: ConfigMap
 metadata:
   name: make-your-time-configpain
 data:
-  configmap.yaml: |
-    namespace:
-      - default
-    labels:
-      - app
-      - owner
+  {{ $config_name := "mogusconf.yaml"}}
+  {{ $config_name }}: |-
+    {{ range .Files.Lines $config_name }}{{ . }}{{ end }}

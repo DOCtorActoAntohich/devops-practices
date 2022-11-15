@@ -36,8 +36,14 @@ Go to `127.0.0.1:8000` in your browser to see the current Moscow Time.
 
 If you update the page, the time will update too.
 
-You can also go to `127.0.0.1:8000/Asia/Krasnoyarsk` to see the current time in Krasnoyarsk.
-It works with other IANA time zones in the similar fashion.
+`/zone/<name>` path can show time in different timezones.
+You can use any IANA time zone.
+For example, `127.0.0.1:8000/zone/Asia/Krasnoyarsk` shows time in Krasnoyarsk.
+
+`/metrics` path shows metrics powered by [Prometheus FastAPI Instrumentator](https://github.com/trallnag/prometheus-fastapi-instrumentator).
+
+`/visits` path shows number of visits and last visit time since restart.
+A visit means successfully fulfilled time request.
 
 ## For contributors
 

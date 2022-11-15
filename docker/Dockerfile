@@ -16,7 +16,8 @@ COPY ./app_python ./app_python
 
 
 # root evil buti need mock data.
-RUN addgroup --system cats && adduser --system --ingroup cats floppa && install -d -m 0755 -o floppa -g cats data
+RUN addgroup --system cats && adduser --system --ingroup cats floppa && \
+    install -d -m 0755 -o floppa -g cats data
 USER floppa
 
 

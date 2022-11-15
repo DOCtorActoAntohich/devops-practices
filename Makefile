@@ -14,13 +14,10 @@ run_from_remote:
 stop_app:
 	docker stop make_your_time
 
-.PHONY: run_tests_local
-run_tests_local:
-	./venv/bin/python -m pytest tests
-
-.PHONY: run_tests_main
-run_tests_main:
-	python -m pytest tests
+.PHONY: run_tests
+run_tests:
+	docker compose -f=docker-compose-test.yaml up --build --abort-on-container-exit --attach make_your_time_tests
+	docker compose -f=docker-compose-test.yaml down -v
 
 .PHONY: run_linter
 run_linter:

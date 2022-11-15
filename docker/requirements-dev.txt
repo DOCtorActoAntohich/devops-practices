@@ -1,4 +1,4 @@
--r docker/requirements.txt
+-r ./requirements.txt
 
 flake8
 mypy

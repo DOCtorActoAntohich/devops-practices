@@ -1,0 +1,27 @@
+FROM python:3.10
+WORKDIR /app
+
+
+EXPOSE 8000
+
+
+# Environment.
+COPY ./docker/requirements.txt ./requirements.txt
+COPY ./docker/requirements-dev.txt ./requirements-dev.txt
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir -r ./requirements-dev.txt
+
+
+# Executables.
+COPY ./app_python ./app_python
+COPY ./tests ./tests
+
+
+# root evil buti need mock data.
+RUN addgroup --system cats && adduser --system --ingroup cats floppa && \
+    install -d -m 0755 -o floppa -g cats data
+USER floppa
+
+
+# RUN
+ENTRYPOINT python -m pytest tests

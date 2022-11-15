@@ -297,3 +297,24 @@ If the container had issues, it would spam me with such messages everywhere. How
 Deleting via `helm` is done using `helm uninstall make-your-time`.
 
 The rest is just `minikube` which you already know how to annihilate.
+
+## Extras
+
+### CPU/Memory limits
+
+You can setup memory and cpu requests (what it should take) and limits (can't take more than that) for containers.
+
+Refer to [`deployment.yaml`](make-your-time/templates/deployment.yaml) and [`values.yaml`](make-your-time/values.yaml) for examples.
+
+After applying these values and reloading, `kubectl describe pod <>` prints these lines (many other lines were omitted):
+
+```txt
+Ready:          True
+Restart Count:  0
+Limits:
+  cpu:          500m
+  memory:       512Mi
+Requests:
+  cpu:          250m
+  memory:       128Mi
+```

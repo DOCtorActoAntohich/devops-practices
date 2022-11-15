@@ -33,6 +33,24 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              memory: "{{ .Values.resources.requests.memory }}"
+              cpu: "{{ .Values.resources.requests.cpu }}"
+            limits:
+              memory: "{{ .Values.resources.limits.memory }}"
+              cpu: "{{ .Values.resources.limits.cpu }}"
+          env:
+            - name: HELM_USER
+              valueFrom:
+                secretKeyRef:
+                  name: make-your-secret
+                  key: user
+            - name: HELM_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: make-your-secret
+                  key: pass
           ports:
             - name: http
               containerPort: {{ .Values.service.container_port }}
@@ -49,8 +67,6 @@ spec:
               port: {{ .Values.service.container_port }}
             initialDelaySeconds: 10
             periodSeconds: 10
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -20,7 +20,7 @@ jobs:
       - name: Run Linter
         run: make run_linter
       - name: Run Tests
-        run: make run_tests_main
+        run: make run_tests
 
   docker_build:
     needs: run_app_tests

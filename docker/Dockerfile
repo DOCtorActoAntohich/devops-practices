@@ -15,8 +15,8 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 COPY ./app_python ./app_python
 
 
-# root evil.
-RUN addgroup --system cats && adduser --system --ingroup cats floppa
+# root evil buti need mock data.
+RUN addgroup --system cats && adduser --system --ingroup cats floppa && install -d -m 0755 -o floppa -g cats data
 USER floppa
 
 

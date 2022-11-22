@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  make_your_time_tests:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-test
+    container_name: make_your_time_test
+    restart: always
+    ports:
+      - "8080:8000"

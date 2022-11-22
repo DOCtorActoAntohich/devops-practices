@@ -155,3 +155,55 @@ MAKE_YOUR_TIME_PORT_8080_TCP_PORT=8080
 ```
 
 As you see, credentials made their way to the container environment, and they are decrypted there.
+
+
+## ConfigMaps
+
+Instead of using environment variables, there's a way to use config files of any format.
+
+You can encrypt them with `sops` and then decrypt when calling `helm secrets install ...` but I'll skip that step now.
+
+### Volume mounts
+
+Go inside [`deployment.yaml`](make-your-time/templates/deployment.yaml) template.
+Add the following lines to the path `spec.template.spec.containers.volumeMounts`:
+
+```yaml
+volumeMounts:
+  - name: mogusconf
+    mountPath: /app/mogusconf.yaml
+    subPath: mogusconf.yaml
+```
+
+To `spec.template.spec.volumes` add:
+
+```yaml
+volumes:
+  - name: mogusconf
+    configMap:
+      name: make-your-time-configpain
+```
+
+Then create [`configmap.yaml`](make-your-time/templates/configmap.yaml).
+This file (in my implementation) will read lines from `mogusconf.yaml`.
+
+`mogusconf.yaml` have to reside in the package root folder because template files cannot read other templates or `.helmignore`d files.
+
+This entire monstrousity will basically map `mogusconf.yaml` from chart root into `/app/mogusconf.yaml`, which can then be used by the app inside container.
+There might be an entire directory instead of one file.
+
+### Results
+
+Let's see if it works. `kubectl exec <pod> -- ls` shows:
+
+```txt
+app_python
+mogusconf.yaml
+requirements.txt
+```
+
+It mapped successfully. Then `kubectl exec <pod> -- cat mogusconf.yaml` shows the following but with messed up newlines:
+
+```txt
+mosugconf:  imposter:    - red  susso: true  lore:    - "MANKIND IS DEAD."    - "BLOOD IS FUEL."    - "HELL IS FULL."
+```

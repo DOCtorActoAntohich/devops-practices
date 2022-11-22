@@ -16,11 +16,11 @@ jobs:
         run: |
           sudo apt-get update -y && sudo apt-get install make
           pip install --no-cache-dir --upgrade pip setuptools wheel
-          pip install --no-cache-dir -r requirements-dev.txt
+          pip install --no-cache-dir -r docker/requirements-dev.txt
       - name: Run Linter
         run: make run_linter
       - name: Run Tests
-        run: make run_tests_main
+        run: make run_tests
 
   docker_build:
     needs: run_app_tests

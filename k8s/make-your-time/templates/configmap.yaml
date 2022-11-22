@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: make-your-time-configpain
+data:
+  {{ $config_name := "mogusconf.yaml"}}
+  {{ $config_name }}: |-
+    {{ range .Files.Lines $config_name }}{{ . }}{{ end }}

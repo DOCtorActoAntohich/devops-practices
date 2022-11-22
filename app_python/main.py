@@ -5,7 +5,7 @@ from starlette.status import HTTP_400_BAD_REQUEST
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from app_python.errors import InvalidTimeZoneError
-from app_python.interactor import TimeInteractor
+from app_python.interactor import TimeInteractor, VisitsInteractor
 
 
 app = FastAPI()
@@ -24,6 +24,11 @@ async def startup():
 @app.get("/")
 async def read_root() -> str:
     return TimeInteractor.get_time_in("Europe/Moscow")
+
+
+@app.get("/visits")
+async def get_visits_statistics() -> str:
+    return VisitsInteractor.statistics()
 
 
 @app.get("/zone/{iana_time_zone:path}")

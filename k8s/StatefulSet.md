@@ -78,13 +78,13 @@ Also, `kubernetes` should have smart scheduling, so not always the same pod will
 Thus, each local file will have different numbers.
 I expected results to be more equal, however on the larger scale that difference will be negligible.
 
-Kubernetes also can guarantee ordering, but this is not necessary for such a small application.
-There is simply no reason to build it for a simple get-only app.
+## Ordering and Parallel creation
 
-## Parallel creation
+Kubernetes also guarantees ordering, but this is not necessary for such a small application.
+Simply no need for it in a simple get-only app.
+Might be useful on a larger scale, but here it's just one poor laptop, and no possible race conditions.
 
-Due to small scale, it doesn't take much time to create a pod.
-
+For me it doesn't take much time to create a pod.
 However, three quick subsequent `kubectl get po` calls show that pods are created sequentally:
 
 First call:

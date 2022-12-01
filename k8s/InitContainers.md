@@ -4,7 +4,13 @@
 
 ### Components
 
-TODO: explain pls.
+- Prometheus Operator - automates prometheus setup.
+- Prometheus - a dude that pulls metrics from `/metrics`.
+- Alertmanager - simply handles alerts sent by others and organizes them.
+- Prometheus Node Exporter - exports metrics of the node (Linux kernel).
+- Prometheus Adapter for Kubernetes Metrics API - collects kubernetes metrics.
+- `kube-state-metrics` - preduces metrics for each running object in kubernetes.
+- Grafana - a thing with fancy dashboards and graphs.
 
 ### Add GitHub repository
 
@@ -15,7 +21,7 @@ helm repo update
 
 ### Install
 
-I will name it `fnnuy-stats`
+I will name it `fnnuy-stats`:
 
 ```bash
 helm install fnnuy-stats prometheus-community/kube-prometheus-stack

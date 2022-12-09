@@ -38,6 +38,8 @@ spec:
             - name: mogusconf
               mountPath: /app/mogusconf.yaml
               subPath: mogusconf.yaml
+            - name: ohh-yeah
+              mountPath: /app/ohh_yeah/
           resources:
             requests:
               memory: "{{ .Values.resources.requests.memory }}"
@@ -60,22 +62,35 @@ spec:
             - name: http
               containerPort: {{ .Values.service.container_port }}
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.service.container_port }}
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 10
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: {{ .Values.service.container_port }}
-          #   initialDelaySeconds: 10
-          #   periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.container_port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.container_port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      initContainers:
+        - name: ohh-yeah
+          image: busybox:1.28
+          command:
+            - wget
+            - "-O"
+            - "/app/ohh_yeah/ohh_yeah.png"
+            - "https://steamcommunity-a.akamaihd.net/economy/emoticon/:ohh_yeah:"
+          volumeMounts:
+            - name: ohh-yeah
+              mountPath: "/app/ohh_yeah/"
       volumes:
         - name: mogusconf
           configMap:
             name: make-your-time-configpain
+        - name: ohh-yeah
+          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -1,0 +1,3 @@
+yandex_compute_instance.machine
+yandex_vpc_network.network
+yandex_vpc_subnet.subnet

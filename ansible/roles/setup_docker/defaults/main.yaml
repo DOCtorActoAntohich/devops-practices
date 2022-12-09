@@ -1,0 +1,6 @@
+---
+docker_repo_url: https://download.docker.com/linux
+docker_gpg_key_url: https://download.docker.com/linux/ubuntu/gpg
+
+docker_users:
+  - "floppa"

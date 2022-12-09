@@ -1,0 +1,30 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+
+scrape_configs:
+  - job_name: prometheus_not_promtail
+    static_configs:
+      - targets:
+          - localhost:9090
+
+  - job_name: promtail_not_prometheus
+    static_configs:
+      - targets:
+          - promtail:8082
+
+  - job_name: grafana
+    static_configs:
+      - targets:
+          - grafana:3000
+
+  - job_name: loki
+    static_configs:
+      - targets:
+          - loki:3100
+
+  - job_name: make_your_time
+    static_configs:
+      - targets:
+          - make_your_time:8000

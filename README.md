@@ -7,22 +7,28 @@ You can learn what time it is now in other places, too.
 
 ## How to Build and Run
 
-You have to have Docker installed, and Docker daemon running.
+Prerequisites:
+
+- `Make`
+- `Docker`
+- `python3`
 
 ### Build locally
 
 1. Clone this repository.
-2. In its root folder, simply execute `build_and_run.sh` script.
+2. In its root folder, simply execute `make build_and_run_local`.
 
 It will build an image locally and run a container with it.
 
-### Simple run
+### Run remote image
 
-Execute the `run.sh` script. It will pull the already built repository and run it.
+Execute `make run_from_remote`.
+
+It will pull an already built image and run it.
 
 ### Stop the container
 
-To stop and delete the container, execute `stop.sh` script.
+To stop and delete the container, execute `make stop_app` script.
 
 ## Usage
 
@@ -30,5 +36,15 @@ Go to `127.0.0.1:8000` in your browser to see the current Moscow Time.
 
 If you update the page, the time will update too.
 
-You can also go to `127.0.0.1:8000/Asia/Krasnoyarsk` to see the current time in Krasnoyarsk.
-It works with other IANA timezones in the similar fashion.
+`/zone/<name>` path can show time in different timezones.
+You can use any IANA time zone.
+For example, `127.0.0.1:8000/zone/Asia/Krasnoyarsk` shows time in Krasnoyarsk.
+
+`/metrics` path shows metrics powered by [Prometheus FastAPI Instrumentator](https://github.com/trallnag/prometheus-fastapi-instrumentator).
+
+`/visits` path shows number of visits and last visit time since restart.
+A visit means successfully fulfilled time request.
+
+## For contributors
+
+Refer to [Dev Notes](Dev%20Notes.md)

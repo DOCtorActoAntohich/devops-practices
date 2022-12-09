@@ -1,0 +1,81 @@
+version: '3.9'
+
+x-logging: &epic_logger
+  driver: json-file
+  options:
+    max-size: 16M
+    max-file: 4
+    tag: "{{.Name}}"
+
+
+services:
+  make_your_time:
+    image: doctoractoantohich/make_your_time:latest
+    container_name: make_your_time
+    restart: unless-stopped
+    ports:
+      - "8080:8000"
+    networks:
+      - pgs_net
+    mem_limit: 512M
+    logging: *epic_logger
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    volumes:
+      - ./config/grafana:/etc/grafana/provisioning:ro
+    restart: unless-stopped
+    networks:
+      - pgs_net
+    mem_limit: 256M
+    logging: *epic_logger
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:2.6.1
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./config/promtail.yaml:/etc/promtail/config.yaml:ro
+    command: -config.file=/etc/promtail/config.yaml
+    restart: unless-stopped
+    networks:
+      - pgs_net
+    ports:
+      - 8082:8082
+    mem_limit: 256M
+    logging: *epic_logger
+
+  loki:
+    container_name: loki
+    image: grafana/loki:2.6.1
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+    networks:
+      - pgs_net
+    mem_limit: 256M
+    logging: *epic_logger
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.39.1
+    volumes:
+      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+    ports:
+      - 9090:9090
+    mem_limit: 256M
+    networks:
+      - pgs_net
+
+
+networks:
+  pgs_net:

@@ -7,12 +7,14 @@ EXPOSE 8000
 
 # Environment.
 COPY ./docker/requirements.txt ./requirements.txt
+COPY ./docker/requirements-dev.txt ./requirements-dev.txt
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir -r ./requirements.txt
+    pip install --no-cache-dir -r ./requirements-dev.txt
 
 
 # Executables.
 COPY ./app_python ./app_python
+COPY ./tests ./tests
 
 
 # root evil buti need mock data.
@@ -22,4 +24,4 @@ USER floppa
 
 
 # RUN
-ENTRYPOINT gunicorn -k uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000 app_python.main:app
+ENTRYPOINT python -m pytest tests

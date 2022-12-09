@@ -1,0 +1,9 @@
+-r ./requirements.txt
+
+flake8
+mypy
+pytest
+requests
+
+pre-commit
+ansible
